@@ -11,7 +11,7 @@ let package = Package(
             targets: ["SwiftH3"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/riobaj/Ch3.git", from: "4.1.0")
+        .package(url: "https://github.com/riobah/Ch3.git", from: "4.1.0")
     ],
     targets: [
         .target(
