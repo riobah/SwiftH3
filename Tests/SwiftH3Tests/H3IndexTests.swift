@@ -10,12 +10,6 @@ final class H3IndexTests: XCTestCase {
         XCTAssertEqual(coord, H3Index(0x8a2a10766d87fff))
     }
 
-    func testCoordToH3Index() {
-        let coord = H3Coordinate(lat: 40.661, lon: -73.944)
-        XCTAssertEqual(H3Index(coordinate: coord, resolution: 10), H3Index(0x8a2a10766d87fff))
-        XCTAssertEqual(H3Index(coordinate: coord, resolution: 5), H3Index(0x852a1077fffffff))
-    }
-
     // MARK: Properties
 
     func testIsValid() {
@@ -33,10 +27,10 @@ final class H3IndexTests: XCTestCase {
         XCTAssertEqual(H3Index(0).resolution, 0)
     }
 
-    func testToCoord() {
-        let coord = H3Index(0x8a2a10766d87fff).coordinate
-        XCTAssertLessThan(abs(coord.lat - 40.66121200787385), 0.0001)
-        XCTAssertLessThan(abs(coord.lon + 73.94380522623717), 0.0001)
+    func testToLatLng() {
+        let l = H3Index(0x8a2a10766d87fff).latLngDegrees
+        XCTAssertLessThan(abs(l.lat - 40.66121200787385), 0.0001)
+        XCTAssertLessThan(abs(l.lng + 73.94380522623717), 0.0001)
     }
 
     // MARK: Traversal
@@ -115,9 +109,8 @@ final class H3IndexTests: XCTestCase {
 
     static var allTests = [
         ("testStringToH3Index", testStringToH3Index),
-        ("testCoordToH3Index", testCoordToH3Index),
         ("testIsValid", testIsValid),
         ("testResolution", testResolution),
-        ("testToCoord", testToCoord),
+        ("testToLatLng", testToLatLng),
     ]
 }

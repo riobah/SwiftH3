@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "Ch3",
-        "repositoryURL": "https://github.com/bdotdub/Ch3.git",
+        "repositoryURL": "https://github.com/riobah/Ch3.git",
         "state": {
           "branch": null,
-          "revision": "c9bb49bc6801e745f0c7ac135855cda09dbb4536",
-          "version": "3.6.0"
+          "revision": "a6e2784215fe039b25d9dbae8b2455c32356b9b2",
+          "version": "4.1.0"
         }
       }
     ]
