@@ -1,10 +1,5 @@
 import Ch3
 
-public struct LatLngDegrees {
-    public let lat: Double
-    public let lng: Double
-}
-
 /// Represents an index in H3
 public struct H3Index {
 
@@ -53,16 +48,16 @@ extension H3Index {
     }
 
     /// The coordinate that this index represents
-    public var latLng: LatLng {
+    public var latLngRads: LatLng {
         let memory = UnsafeMutablePointer<LatLng>.allocate(capacity: 1)
         defer { memory.deallocate() }
         cellToLatLng(value, memory)
         return memory.pointee
     }
     
-    public var latLngDegrees: LatLngDegrees {
-        let latLng = self.latLng
-        return LatLngDegrees(lat: radsToDegs(latLng.lat), lng: radsToDegs(latLng.lng))
+    public var latLng: H3LatLng {
+        let latLng = self.latLngRads
+        return H3LatLng(lat: radsToDegs(latLng.lat), lng: radsToDegs(latLng.lng))
     }
     
 }
@@ -167,7 +162,21 @@ extension H3Index {
         let index = memory.pointee
         return index == H3Index.invalidIndex ? nil : H3Index(index)
     }
+}
 
+// MARK: Vertexes
+
+extension H3Index {
+    public var vertexes: [H3Vertex] {
+        var vertexes = [UInt64](
+            repeating: 0,
+            count: 6
+        )
+        vertexes.withUnsafeMutableBufferPointer { ptr in
+            cellToVertexes(value, ptr.baseAddress)
+        }
+        return vertexes.map { H3Vertex($0) }
+    }
 }
 
 extension H3Index: CustomStringConvertible {

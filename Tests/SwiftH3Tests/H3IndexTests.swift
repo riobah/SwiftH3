@@ -28,7 +28,7 @@ final class H3IndexTests: XCTestCase {
     }
 
     func testToLatLng() {
-        let l = H3Index(0x8a2a10766d87fff).latLngDegrees
+        let l = H3Index(0x8a2a10766d87fff).latLng
         XCTAssertLessThan(abs(l.lat - 40.66121200787385), 0.0001)
         XCTAssertLessThan(abs(l.lng + 73.94380522623717), 0.0001)
     }
@@ -106,11 +106,33 @@ final class H3IndexTests: XCTestCase {
         let res15Index = index.centerChild(at: 15)
         XCTAssertEqual(res15Index!.directCenterChild, nil)
     }
+    
+    // MARK: Vertexes
+    
+    func testVertexes() {
+        let index = H3Index(0x85283473fffffff)
+        let vertexes = index.vertexes
+        let expectedVertexes = [
+            0x22528340bfffffff,
+            0x235283447fffffff,
+            0x205283463fffffff,
+            0x255283463fffffff,
+            0x22528340ffffffff,
+            0x23528340bfffffff
+        ].map { H3Vertex($0) }
+        XCTAssertEqual(vertexes, expectedVertexes)
+        
+        let vertex = H3Vertex(0x255283463fffffff)
+        let l = vertex.latLng
+        XCTAssertLessThan(abs(l.lat - 37.42012867767778), 0.0001)
+        XCTAssertLessThan(abs(l.lng + 122.03773496427027), 0.0001)
+    }
 
     static var allTests = [
         ("testStringToH3Index", testStringToH3Index),
         ("testIsValid", testIsValid),
         ("testResolution", testResolution),
         ("testToLatLng", testToLatLng),
+        ("testVertexes", testVertexes),
     ]
 }
