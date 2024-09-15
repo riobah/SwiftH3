@@ -1,4 +1,5 @@
 import Ch3
+import Darwin
 
 /// Represents an index in H3
 public struct H3Index {
@@ -24,7 +25,7 @@ public struct H3Index {
      */
     public init(string: String) {
         var value: UInt64 = 0
-        string.withCString { ptr in
+        let _ = string.withCString { ptr in
             // TODO: do sth with return code of `stringToH3`
             stringToH3(ptr, &value)
         }
@@ -79,10 +80,10 @@ extension H3Index {
         guard maxGridDiskSize(ringK, maxGridSizeMem) == 0 else {
             return []
         }
-        var maxGridSize = maxGridSizeMem.pointee
+        let maxGridSize = maxGridSizeMem.pointee
 
         var indices = [UInt64](repeating: 0, count: Int(maxGridSize))
-        indices.withUnsafeMutableBufferPointer { ptr in
+        let _ = indices.withUnsafeMutableBufferPointer { ptr in
             gridDisk(value, ringK, ptr.baseAddress)
         }
         return indices.map { H3Index($0) }
@@ -138,7 +139,7 @@ extension H3Index {
             repeating: 0,
             count: Int(childrenSize)
         )
-        children.withUnsafeMutableBufferPointer { ptr in
+        let _ = children.withUnsafeMutableBufferPointer { ptr in
             cellToChildren(value, Int32(resolution), ptr.baseAddress)
         }
         return children
@@ -172,7 +173,7 @@ extension H3Index {
             repeating: 0,
             count: 6
         )
-        vertexes.withUnsafeMutableBufferPointer { ptr in
+        let _ = vertexes.withUnsafeMutableBufferPointer { ptr in
             cellToVertexes(value, ptr.baseAddress)
         }
         return vertexes.map { H3Vertex($0) }

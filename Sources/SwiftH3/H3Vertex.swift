@@ -1,4 +1,5 @@
 import Ch3
+import Darwin
 
 public struct H3Vertex {
     private var value: UInt64
@@ -20,7 +21,7 @@ public struct H3Vertex {
      */
     public init(string: String) {
         var value: UInt64 = 0
-        string.withCString { ptr in
+        let _ = string.withCString { ptr in
             // TODO: do sth with return code of `stringToH3`
             stringToH3(ptr, &value)
         }
